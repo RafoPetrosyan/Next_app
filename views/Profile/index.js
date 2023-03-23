@@ -4,18 +4,18 @@ import Link from "next/link";
 import {useSelector} from "react-redux";
 import {isEmpty} from "lodash";
 
+const data = {models: [{title: 'dadsa', id: 1}, {title: 'ewdwdwdwfd', id: 2}]}
+
 const Profile = () => {
-    const {products} = useSelector(({users}) => users)
-    console.log(products)
+    const {products} = useSelector(({users}) => users);
     return (
         <div>
             <Link href='/'>Home</Link>
-            {products?.models?.[0]?.title}
-            {/*<div>*/}
-            {/*    {!isEmpty(products) && products?.models?.map(item => (*/}
-            {/*        <p key={item.id}>{item.title}</p>*/}
-            {/*    ))}*/}
-            {/*</div>*/}
+            <div>
+                {!isEmpty(products) && products?.models?.map(item => (
+                    <p key={item.id}>{item.title}</p>
+                ))}
+            </div>
         </div>
     )
 }

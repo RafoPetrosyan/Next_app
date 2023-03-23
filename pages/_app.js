@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Provider} from "react-redux";
 import {store, wrapper} from "../store";
 import Head from "next/head";
@@ -6,6 +6,10 @@ import Head from "next/head";
 const Application = ({Component, ...rest}) => {
     const {store, props} = wrapper.useWrappedStore(rest);
     const {pageProps} = props;
+    const [ mounted, setMounted ] = useState(true);
+
+    // useEffect(() => setMounted(true), []);   // at init only
+
     return (
         <>
             <Head>
@@ -17,7 +21,7 @@ const Application = ({Component, ...rest}) => {
                 <meta charSet="utf-8"/>
             </Head>
             <Provider store={store}>
-                    <Component {...pageProps} />
+                {mounted && <Component {...pageProps} />}
             </Provider>
         </>
     );
