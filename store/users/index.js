@@ -5,6 +5,7 @@ import {
     userSignIn,
     userSignUp,
     fetchCurrentUser,
+    fetchProducts,
 } from "./operations";
 import Account from "../../utils/Account";
 
@@ -12,6 +13,7 @@ const initialState = {
     currentUser: Account.getAccount(),
     isUserLogged: Account.getAccessToken() && !isEmpty(Account.getAccount()),
     loader: false,
+    products: [],
 };
 
 export const usersSlice = createSlice({
@@ -31,6 +33,9 @@ export const usersSlice = createSlice({
             .addCase(userLogAuth.fulfilled, (state) => {
                 state.currentUser = {};
                 state.isUserLogged = false;
+            })
+            .addCase(fetchProducts.fulfilled, (state, {payload}) => {
+                state.products = payload;
             })
             .addCase(fetchCurrentUser.fulfilled, (state, action) => {
                 state.currentUser = action.payload.user
@@ -57,5 +62,5 @@ export const usersSlice = createSlice({
     }
 });
 
-export const { changUserLogged } = usersSlice.actions;
+export const {changUserLogged} = usersSlice.actions;
 export default usersSlice.reducer;

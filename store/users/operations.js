@@ -1,17 +1,18 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import Account from "../../utils/Account";
 import httpClient from "../httpClient";
+import Router from "next/router";
 
 export const userSignIn = createAsyncThunk(
     'users/userSignIn', async (payload) => {
         try {
-            const {data} = await httpClient.post(`/user/login`, payload.data.values);
+            const {data} = await httpClient.post(`/user/login`, payload.values);
+            await Router.push('/profile')
             return {
                 data,
-                rememberMe: payload.data.rememberMe,
+                rememberMe: payload.rememberMe,
             };
         } catch (e) {
-            payload.callback('Incorrect email or password');
         }
     });
 
@@ -47,6 +48,16 @@ export const fetchCurrentUser = createAsyncThunk(
             const {data} =  await httpClient.post(`/user/user-get`);
             return data
         } catch {
+            //
+        }
+    });
+
+export const fetchProducts = createAsyncThunk(
+    'products/fetchProducts', async (payload = {}) => {
+        try {
+            const {data} = await httpClient.get(`/products`, {params: payload});
+            return data.data;
+        } catch (e) {
             //
         }
     });

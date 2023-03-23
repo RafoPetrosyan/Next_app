@@ -24,6 +24,7 @@ class Account {
     static getAccount() {
         let data;
         try {
+            console.log(22222222)
             if(sessionStorage.getItem('account')) {
                 data = JSON.parse(sessionStorage.getItem('account'));
             }
@@ -31,8 +32,10 @@ class Account {
                 data = JSON.parse(localStorage.getItem('account'));
             }
         } catch {
+            console.log(4455456)
             data = {};
         }
+        if(!data) data = {};
         return data;
     }
 

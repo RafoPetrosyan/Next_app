@@ -1,10 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
+import { createWrapper } from 'next-redux-wrapper';
 import users from "./users";
 
-const store = configureStore({
+export const store = configureStore({
     reducer: {
         users,
     },
 });
 
-export default store;
+const makeStore = () => store;
+
+export const wrapper = createWrapper(makeStore);
