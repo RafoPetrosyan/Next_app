@@ -2,7 +2,7 @@ import axios from 'axios';
 import Account from "../utils/Account";
 import {changUserLogged} from "./users";
 import {BASE_URL} from "../constants";
-import {store} from "./index";
+import store from "./index";
 
 const httpClient = axios.create({
     baseURL: BASE_URL,

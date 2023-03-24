@@ -1,12 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import {fetchProducts} from "../../store/users/operations";
-import {useSelector} from "react-redux";
 import {isEmpty} from "lodash";
 
 const Profile = (props) => {
-    const {products} = useSelector(({users}) => users);
-
     return (
         <div>
             <Link href='/'>Home</Link>
@@ -22,7 +19,6 @@ const Profile = (props) => {
 
 Profile.getInitialProps = async (ctx) => {
    const { payload } = await ctx.store.dispatch(fetchProducts({}))
-    console.log(payload)
     return payload
 }
 

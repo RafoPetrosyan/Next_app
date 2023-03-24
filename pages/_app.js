@@ -1,14 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import {Provider} from "react-redux";
-import {store, wrapper} from "../store";
+import store from "../store";
 
-const Application = ({Component, ...rest}) => {
-    const {store, props} = wrapper.useWrappedStore(rest);
-    const {pageProps} = props;
-
-    console.log(pageProps, 999999 + '00000000')
-
+const Application = ({Component, pageProps}) => {
     return (
         <>
             <Head>
