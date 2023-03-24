@@ -1,18 +1,18 @@
 import React from "react";
-import { fetchProducts} from "../../store/users/operations";
 import Link from "next/link";
+import {fetchProducts} from "../../store/users/operations";
 import {useSelector} from "react-redux";
 import {isEmpty} from "lodash";
 
-const data = {models: [{title: 'dadsa', id: 1}, {title: 'ewdwdwdwfd', id: 2}]}
-
-const Profile = () => {
+const Profile = (props) => {
     const {products} = useSelector(({users}) => users);
+
     return (
         <div>
             <Link href='/'>Home</Link>
+            <Link href='/profile/account'>Account</Link>
             <div>
-                {!isEmpty(products) && products?.models?.map(item => (
+                {!isEmpty(props) && props?.models?.map(item => (
                     <p key={item.id}>{item.title}</p>
                 ))}
             </div>
@@ -21,7 +21,9 @@ const Profile = () => {
 }
 
 Profile.getInitialProps = async (ctx) => {
-    await ctx.store.dispatch(fetchProducts({}))
+   const { payload } = await ctx.store.dispatch(fetchProducts({}))
+    console.log(payload)
+    return payload
 }
 
 export default Profile;

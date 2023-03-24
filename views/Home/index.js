@@ -1,18 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
+import useContainer from "./hook";
 import Link from "next/link";
-import useContainer, {getInitialProps} from "./hook";
-import {useDispatch} from "react-redux";
-import {userSignIn} from "../../store/users/operations";
 
 const Home = () => {
-    const {} = useContainer();
-    const [email, setEmail] = useState('petrosyanrafo0@gmail.com')
-    const [password, setPassword] = useState('12345678')
-    const dispatch = useDispatch();
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(userSignIn({values: {email, password}, rememberMe: true}))
-    }
+    const {handleSubmit, setEmail, setPassword, email, password} = useContainer();
+
     return (
         <div className='homePage'>
             <form onSubmit={handleSubmit}>
@@ -20,8 +12,8 @@ const Home = () => {
                 <input type='password' value={password} onChange={({target: {value}}) => setPassword(value)} />
                 <button type={'submit'}>Sign In</button>
             </form>
+            <Link href='/profile'>Profile</Link>
         </div>
     )
 }
-Home.getInitialProps = getInitialProps;
 export default Home;
