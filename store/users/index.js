@@ -11,7 +11,7 @@ import Account from "../../utils/Account";
 
 const initialState = {
     currentUser: Account.getAccount(),
-    isUserLogged: Account.getAccessToken() && !isEmpty(Account.getAccount()),
+    isUserAuthorized: Account.getAccessToken() && !isEmpty(Account.getAccount()),
     loader: false,
     products: [],
 };
@@ -22,17 +22,17 @@ export const usersSlice = createSlice({
     reducers: {
         changUserLogged: (state, {payload}) => {
             if (payload) {
-                state.isUserLogged = true;
+                state.isUserAuthorized = true;
                 return;
             }
-            state.isUserLogged = false;
+            state.isUserAuthorized = false;
         },
     },
     extraReducers: (builder) => {
         builder
             .addCase(userLogAuth.fulfilled, (state) => {
                 state.currentUser = {};
-                state.isUserLogged = false;
+                state.isUserAuthorized = false;
             })
             .addCase(fetchProducts.fulfilled, (state, {payload}) => {
                 state.products = payload;
@@ -57,7 +57,7 @@ export const usersSlice = createSlice({
                         Account.setAccessToken(payload?.data?.auth_key);
                     }
                     state.currentUser = payload.data;
-                    state.isUserLogged = true;
+                    state.isUserAuthorized = true;
                 })
     }
 });

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import {isEmpty} from "lodash";
 import {fetchProducts} from "../../store/users/operations";
-import withAuthorized from "../../hocs/withAuthorized";
+import withAuthorized from '../../hoc/withAuthorized';
 
 const Profile = (props) => {
     return (
@@ -19,8 +19,8 @@ const Profile = (props) => {
 }
 
 Profile.getInitialProps = async (ctx) => {
-   const { payload } = await ctx.store.dispatch(fetchProducts({}))
+    const {payload} = await ctx.store.dispatch(fetchProducts({}))
     return payload
 }
 
-export default withAuthorized(Profile);
+export default Profile;
