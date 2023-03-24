@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import {fetchProducts} from "../../store/users/operations";
 import {isEmpty} from "lodash";
+import {fetchProducts} from "../../store/users/operations";
+import withAuthorized from "../../hocs/withAuthorized";
 
 const Profile = (props) => {
     return (
@@ -22,4 +23,4 @@ Profile.getInitialProps = async (ctx) => {
     return payload
 }
 
-export default Profile;
+export default withAuthorized(Profile);
