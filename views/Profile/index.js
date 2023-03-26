@@ -10,8 +10,8 @@ const Profile = (props) => {
             <Link href='/'>Home</Link>
             <Link href='/profile/account'>Account</Link>
             <div>
-                {!isEmpty(props) && props?.models?.map(item => (
-                    <p key={item.id}>{item.title}</p>
+                {!isEmpty(props) && Object.values(props)?.map(item => (
+                    <p key={item.id}>{item.attributes.email}</p>
                 ))}
             </div>
         </div>
@@ -19,8 +19,8 @@ const Profile = (props) => {
 }
 
 Profile.getInitialProps = async (ctx) => {
-    const {payload} = await ctx.store.dispatch(fetchProducts({}))
-    return payload
+    const {payload} = await ctx.store.dispatch(fetchProducts())
+    return payload;
 }
 
-export default Profile;
+export default withAuthorized(Profile);

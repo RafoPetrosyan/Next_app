@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Account from "../utils/Account";
-import {changUserLogged} from "./users";
+import {setUserAuthorized} from "./users";
 import {BASE_URL} from "../constants";
+import Cookies from "../utils/cookies";
 import store from "./index";
 
 const httpClient = axios.create({
@@ -12,9 +12,10 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
-    const accessToken = Account.getAccessToken();
+    if(typeof window === 'undefined') return config;
+    const accessToken = Cookies.getCookie('accessToken');
     if (accessToken) {
-        config.headers['x-api-key'] = accessToken;
+        config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config
 });
@@ -23,9 +24,10 @@ httpClient.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            Account.delete();
+            Cookies.removeCookie(null, 'accessToken');
+            Cookies.removeCookie(null, 'currentUser');
             window.replace('/');
-            store.dispatch(changUserLogged());
+            store.dispatch(setUserAuthorized());
         }
         return Promise.reject(error)
     }

@@ -3,8 +3,8 @@ import {useState} from "react";
 import {userSignIn} from "../../store/users/operations";
 
 function useContainer() {
-    const [email, setEmail] = useState('petrosyanrafo0@gmail.com')
-    const [password, setPassword] = useState('12345678')
+    const [email, setEmail] = useState('vazgen.galstyan@rubygarage.org')
+    const [password, setPassword] = useState('123235vV')
     const dispatch = useDispatch();
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ function useContainer() {
         setPassword,
         setEmail,
         email,
-        password
+        password,
     }
 }
 

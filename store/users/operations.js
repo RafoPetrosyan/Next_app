@@ -1,13 +1,10 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import Account from "../../utils/Account";
 import httpClient from "../httpClient";
-import Router from "next/router";
 
 export const userSignIn = createAsyncThunk(
     'users/userSignIn', async (payload) => {
         try {
-            const {data} = await httpClient.post(`/user/login`, payload.values);
-            await Router.push('/profile')
+            const {data} = await httpClient.post(`/v1/user_account/session`, payload.values);
             return {
                 data,
                 rememberMe: payload.rememberMe,
@@ -31,31 +28,10 @@ export const userSignUp = createAsyncThunk(
         }
     });
 
-export const userLogAuth = createAsyncThunk(
-    'users/userLogAuth', async (_, {getState}) => {
-        const {users: {currentUser}} = getState();
-        try {
-            await httpClient.post(`/user/logout`,{id: currentUser?.id});
-            Account.delete();
-        } catch {
-            //
-        }
-    });
-
-export const fetchCurrentUser = createAsyncThunk(
-    'users/getUser', async () => {
-        try {
-            const {data} =  await httpClient.post(`/user/user-get`);
-            return data
-        } catch {
-            //
-        }
-    });
-
 export const fetchProducts = createAsyncThunk(
-    'products/fetchProducts', async (payload = {}) => {
+    'products/fetchProducts', async () => {
         try {
-            const {data} = await httpClient.get(`/products`, {params: payload});
+            const {data} = await httpClient.get(`/v1/user_account/user_invitations?page%5Bnumber%5D=1&page%5Bsize%5D=20`);
             return data.data;
         } catch (e) {
             //

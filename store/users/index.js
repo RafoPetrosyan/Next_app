@@ -1,17 +1,12 @@
+import Router from "next/router";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
-import {isEmpty} from "lodash";
-import {
-    userLogAuth,
-    userSignIn,
-    userSignUp,
-    fetchCurrentUser,
-    fetchProducts,
-} from "./operations";
-import Account from "../../utils/Account";
+import {userSignIn, userSignUp, fetchProducts} from "./operations";
+import {setAuthorizationHeader} from "../../utils/helpers";
+import Cookies from "../../utils/cookies";
 
 const initialState = {
-    currentUser: Account.getAccount(),
-    isUserAuthorized: Account.getAccessToken() && !isEmpty(Account.getAccount()),
+    currentUser: {},
+    isUserAuthorized: false,
     loader: false,
     products: [],
 };
@@ -20,26 +15,21 @@ export const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        changUserLogged: (state, {payload}) => {
+        setUserAuthorized: (state, {payload}) => {
             if (payload) {
                 state.isUserAuthorized = true;
                 return;
             }
             state.isUserAuthorized = false;
         },
+        setCurrentUser: (state, {payload}) => {
+           state.currentUser = payload;
+        },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(userLogAuth.fulfilled, (state) => {
-                state.currentUser = {};
-                state.isUserAuthorized = false;
-            })
             .addCase(fetchProducts.fulfilled, (state, {payload}) => {
                 state.products = payload;
-            })
-            .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-                state.currentUser = action.payload.user
-                Account.setAccount(action.payload.user);
             })
             .addMatcher(
                 isAnyOf(userSignIn.pending, userSignUp.pending), (state) => {
@@ -49,18 +39,23 @@ export const usersSlice = createSlice({
                 (state, {payload}) => {
                     state.loader = false;
                     if (!payload) return;
+
+                    setAuthorizationHeader(payload.data.meta?.access);
+                    state.accessToken = payload.data.meta?.access;
+
                     if (payload.rememberMe) {
-                        Account.setAccount(payload.data, 'localStorage');
-                        Account.setAccessToken(payload?.data?.auth_key, 'localStorage');
+                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, {maxAge: 365 * 24 * 60 * 60});
+                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, {maxAge: 365 * 24 * 60 * 60});
                     } else {
-                        Account.setAccount(payload.data);
-                        Account.setAccessToken(payload?.data?.auth_key);
+                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes);
+                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access);
                     }
                     state.currentUser = payload.data;
                     state.isUserAuthorized = true;
+                    Router.push('/profile')
                 })
     }
 });
 
-export const {changUserLogged} = usersSlice.actions;
+export const {setUserAuthorized, setCurrentUser} = usersSlice.actions;
 export default usersSlice.reducer;
