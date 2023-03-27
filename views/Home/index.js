@@ -16,4 +16,8 @@ const Home = () => {
         </div>
     )
 }
+
+Home.getInitialProps = async () => {
+
+}
 export default Home;

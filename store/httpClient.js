@@ -12,9 +12,13 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
-    if(typeof window === 'undefined') return config;
+    if(typeof window === 'undefined') {
+        // console.log(config, 'axios header ______444444________________')
+        return config
+    }
     const accessToken = Cookies.getCookie('accessToken');
     if (accessToken) {
+        axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config

@@ -23,7 +23,15 @@ export const usersSlice = createSlice({
             state.isUserAuthorized = false;
         },
         setCurrentUser: (state, {payload}) => {
-           state.currentUser = payload;
+            state.currentUser = payload;
+        },
+        userLogAuth: (state) => {
+            state.currentUser = {};
+            state.isUserAuthorized = false;
+            setAuthorizationHeader('');
+            Cookies.removeCookie(null, 'accessToken');
+            Cookies.removeCookie(null, 'currentUser');
+            Router.replace('/');
         },
     },
     extraReducers: (builder) => {
@@ -37,25 +45,28 @@ export const usersSlice = createSlice({
                 })
             .addMatcher(isAnyOf(userSignIn.fulfilled, userSignUp.fulfilled),
                 (state, {payload}) => {
-                    state.loader = false;
-                    if (!payload) return;
+
+                    if (!payload) {
+                        state.loader = false;
+                        return;
+                    }
 
                     setAuthorizationHeader(payload.data.meta?.access);
-                    state.accessToken = payload.data.meta?.access;
 
                     if (payload.rememberMe) {
-                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, {maxAge: 365 * 24 * 60 * 60});
-                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, {maxAge: 365 * 24 * 60 * 60});
+                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, {maxAge: 365 * 24 * 60 * 60, maxage: 365 * 24 * 60 * 60});
+                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, {maxAge: 365 * 24 * 60 * 60, maxage: 365 * 24 * 60 * 60});
                     } else {
                         Cookies.setCookie(null, 'currentUser', payload.data.data.attributes);
                         Cookies.setCookie(null, 'accessToken', payload.data.meta?.access);
                     }
                     state.currentUser = payload.data;
                     state.isUserAuthorized = true;
-                    Router.push('/profile')
+                    Router.push('/profile');
+                    state.loader = false;
                 })
     }
 });
 
-export const {setUserAuthorized, setCurrentUser} = usersSlice.actions;
+export const {setUserAuthorized, setCurrentUser, userLogAuth} = usersSlice.actions;
 export default usersSlice.reducer;

@@ -3,7 +3,10 @@ import clientCookie from 'component-cookie';
 import {isEmpty} from "lodash";
 
 class Cookies {
-    static setCookie = (ctx, name, value, options = { path: '/' }) => {
+    static setCookie = (ctx, name, value, options = {}) => {
+        options.httpOnly = true;
+        options.secure = true;
+        options.path = '/';
         const data = JSON.stringify(value);
         if (ctx && typeof window === 'undefined') {
             ctx.res.setHeader('Set-Cookie', serverCookie.serialize(name, data, options));

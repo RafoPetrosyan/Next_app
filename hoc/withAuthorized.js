@@ -27,7 +27,6 @@ const withAuthorized = (Component) => {
             return {...await Component.getInitialProps(ctx)};
         }
         return {}
-
     }
 
     return WithAuthorized;

@@ -4,8 +4,8 @@ import {Provider} from "react-redux";
 import {isEmpty} from "lodash";
 import cookies from "next-cookies";
 import store from "../store";
-import {setCurrentUser, setUserAuthorized} from "../store/users";
 import Cookies from "../utils/cookies";
+import {setCurrentUser, setUserAuthorized} from "../store/users";
 import {setAuthorizationHeader} from "../utils/helpers";
 
 const Application = ({Component, pageProps}) => {
@@ -13,8 +13,9 @@ const Application = ({Component, pageProps}) => {
         const currentUser = Cookies.getCookie('currentUser');
         const accessToken = Cookies.getCookie('accessToken');
         store.dispatch(setCurrentUser(currentUser));
+        setAuthorizationHeader(accessToken);
         if(accessToken && !isEmpty(currentUser)) store.dispatch(setUserAuthorized(true));
-    }, []);
+    }, [store.getState().users]);
 
     return (
         <>
@@ -38,8 +39,8 @@ Application.getInitialProps = async ({Component, ctx}) => {
     ctx.store = store;
     const isServer = Boolean(ctx.req);
     if(isServer) {
-        const {accessToken} = cookies(ctx);
-        if(accessToken) setAuthorizationHeader(accessToken);
+        const {accessToken} = await cookies(ctx);
+        if(accessToken) await setAuthorizationHeader(accessToken);
     }
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
     return {pageProps}
