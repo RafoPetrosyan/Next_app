@@ -3,12 +3,10 @@ import Link from "next/link";
 import {isEmpty} from "lodash";
 import {useDispatch} from "react-redux";
 import {userLogAuth} from "../../store/users";
-import {fetchProducts} from "../../store/users/operations";
-import withAuthorized from "../../hoc/withAuthorized";
+import {fetchListings} from "../../store/users/operations";
 
-const Profile = (props) => {
+const Listings = (props) => {
     const dispatch = useDispatch();
-
     const handleLogAuth = () => {
         dispatch(userLogAuth())
     }
@@ -16,21 +14,21 @@ const Profile = (props) => {
     return (
         <div>
             <Link href='/'>Home</Link>
-            <Link href='/listings'>Listings</Link>
             <Link href='/profile/account'>Account</Link>
             <button onClick={handleLogAuth}>Log Auth</button>
             <div>
-                {!isEmpty(props) && Object.values(props)?.map(item => (
-                    <p key={item.id}>{item.attributes.email}</p>
-                ))}
+                {!isEmpty(props) && <>
+                    {props.attributes.about}
+                    {props.attributes.first_name}
+                </>}
             </div>
         </div>
     )
 }
 
-Profile.getInitialProps = async (ctx) => {
-    const {payload} = await ctx.store.dispatch(fetchProducts())
+Listings.getInitialProps = async ({store}) => {
+    const {payload} = await store.dispatch(fetchListings())
     return payload;
 }
 
-export default withAuthorized(Profile);
+export default Listings;

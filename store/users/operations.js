@@ -37,3 +37,14 @@ export const fetchProducts = createAsyncThunk(
             //
         }
     });
+
+
+export const fetchListings = createAsyncThunk(
+    'products/fetchListings', async () => {
+        try {
+            const {data} = await httpClient.get(`/v1/public/user_accounts/7211ccc2-1fca-4799-b1e1-4005e9fc42be`);
+            return data.data;
+        } catch (e) {
+            //
+        }
+    });

@@ -1,7 +1,6 @@
 import Router from "next/router";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
-import {userSignIn, userSignUp, fetchProducts} from "./operations";
-import {setAuthorizationHeader} from "../../utils/helpers";
+import {userSignIn, userSignUp, fetchProducts, fetchListings} from "./operations";
 import Cookies from "../../utils/cookies";
 
 const initialState = {
@@ -9,6 +8,7 @@ const initialState = {
     isUserAuthorized: false,
     loader: false,
     products: [],
+    listings: [],
 };
 
 export const usersSlice = createSlice({
@@ -28,7 +28,6 @@ export const usersSlice = createSlice({
         userLogAuth: (state) => {
             state.currentUser = {};
             state.isUserAuthorized = false;
-            setAuthorizationHeader('');
             Cookies.removeCookie(null, 'accessToken');
             Cookies.removeCookie(null, 'currentUser');
             Router.replace('/');
@@ -38,6 +37,9 @@ export const usersSlice = createSlice({
         builder
             .addCase(fetchProducts.fulfilled, (state, {payload}) => {
                 state.products = payload;
+            })
+            .addCase(fetchListings.fulfilled, (state, {payload}) => {
+                state.listings = payload;
             })
             .addMatcher(
                 isAnyOf(userSignIn.pending, userSignUp.pending), (state) => {
@@ -51,11 +53,15 @@ export const usersSlice = createSlice({
                         return;
                     }
 
-                    setAuthorizationHeader(payload.data.meta?.access);
-
                     if (payload.rememberMe) {
-                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, {maxAge: 365 * 24 * 60 * 60, maxage: 365 * 24 * 60 * 60});
-                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, {maxAge: 365 * 24 * 60 * 60, maxage: 365 * 24 * 60 * 60});
+                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, {
+                            maxAge: 365 * 24 * 60 * 60,
+                            maxage: 365 * 24 * 60 * 60
+                        });
+                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, {
+                            maxAge: 365 * 24 * 60 * 60,
+                            maxage: 365 * 24 * 60 * 60
+                        });
                     } else {
                         Cookies.setCookie(null, 'currentUser', payload.data.data.attributes);
                         Cookies.setCookie(null, 'accessToken', payload.data.meta?.access);

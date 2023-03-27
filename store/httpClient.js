@@ -12,10 +12,8 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
-    if(typeof window === 'undefined') {
-        // console.log(config, 'axios header ______444444________________')
-        return config
-    }
+    if(typeof window === 'undefined') return config;
+
     const accessToken = Cookies.getCookie('accessToken');
     if (accessToken) {
         axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
@@ -27,6 +25,7 @@ httpClient.interceptors.request.use((config) => {
 httpClient.interceptors.response.use(
     (response) => response,
     (error) => {
+        console.log('httpClient response status', error.response.status);
         if (error.response && error.response.status === 401) {
             Cookies.removeCookie(null, 'accessToken');
             Cookies.removeCookie(null, 'currentUser');
