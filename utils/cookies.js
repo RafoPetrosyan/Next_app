@@ -7,6 +7,8 @@ class Cookies {
         options.httpOnly = true;
         options.secure = true;
         options.path = '/';
+        options.sameSite = true;
+        options.samesite = true;
         const data = JSON.stringify(value);
         if (ctx && typeof window === 'undefined') {
             ctx.res.setHeader('Set-Cookie', serverCookie.serialize(name, data, options));
