@@ -33,6 +33,7 @@ const Application = ({Component, pageProps}) => {
 
 Application.getInitialProps = async ({Component, ctx}) => {
     ctx.store = store;
+    ctx.dispatch = store.dispatch;
     const isServer = Boolean(ctx.req);
     if (isServer) {
         const {accessToken} = await cookies(ctx);

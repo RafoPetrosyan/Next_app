@@ -18,6 +18,6 @@ const Home = () => {
 }
 
 Home.getInitialProps = async () => {
-
+    console.log(4444)
 }
 export default Home;
