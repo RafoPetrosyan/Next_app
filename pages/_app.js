@@ -5,8 +5,8 @@ import {isEmpty} from "lodash";
 import cookies from "next-cookies";
 import store from "../store";
 import Cookies from "../utils/cookies";
-import {setCurrentUser, setUserAuthorized} from "../store/users";
 import httpClient from "../store/httpClient";
+import {setCurrentUser, setUserAuthorized} from "../store/users";
 
 const Application = ({Component, pageProps}) => {
     useEffect(() => {
