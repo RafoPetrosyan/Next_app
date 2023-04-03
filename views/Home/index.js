@@ -13,6 +13,7 @@ const Home = () => {
                 <button type={'submit'}>Sign In</button>
             </form>
             <Link href='/profile'>Profile</Link>
+            <Link href='/blob' >Blob</Link>
         </div>
     )
 }
