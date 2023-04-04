@@ -7,6 +7,7 @@ import store from "../store";
 import Cookies from "../utils/cookies";
 import httpClient from "../store/httpClient";
 import {setCurrentUser, setUserAuthorized} from "../store/users";
+import {parseQuery} from "../utils/helpers";
 
 const Application = ({Component, pageProps}) => {
     useEffect(() => {
@@ -33,7 +34,9 @@ const Application = ({Component, pageProps}) => {
 
 Application.getInitialProps = async ({Component, ctx}) => {
     ctx.store = store;
-    ctx.dispatch = store.dispatch;
+    if(!isEmpty(ctx.query?.slug)) {
+        ctx.params = await parseQuery(ctx.query.slug);
+    }
     const isServer = Boolean(ctx.req);
     if (isServer) {
         const {accessToken} = await cookies(ctx);
