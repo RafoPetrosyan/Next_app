@@ -6,10 +6,11 @@ export const createSlug = (params) => {
 }
 
 export const parseQuery = (query) => {
-    const data = query.filter(item => item.includes('_'));
-    return data.reduce((acc, item) => {
-        const element = item.split('_');
-        acc[`${element[0]}`] = element[1];
+    return query.reduce((acc, item) => {
+        if(item.includes('_')) {
+            const element = item.split('_');
+            acc[`${element[0]}`] = element[1];
+        }
         return acc;
     }, {});
 }

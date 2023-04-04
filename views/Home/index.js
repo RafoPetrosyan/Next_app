@@ -1,18 +1,18 @@
-import React, {useCallback, useEffect, useState} from "react";
-import useContainer from "./hook";
+import React, {useCallback} from "react";
 import Link from "next/link";
 import {Button, Radio, Select} from "antd";
 import {FormattedMessage} from "react-intl";
-import {useDispatch, useSelector} from "react-redux";
-import {changeLanguages} from "../../store/intl/action";
+import {useRouter} from "next/router";
+import useContainer from "./hook";
 
 const Home = () => {
     const {handleSubmit, setEmail, setPassword, email, password} = useContainer();
-    const language = useSelector(state => state.intl)
-    const dispatch = useDispatch()
-    const handleChange = useCallback((val) => {
-        dispatch(changeLanguages(val))
-    }, [])
+    const router = useRouter();
+
+    const handleChange = useCallback((val)=> {
+        const { pathname, asPath, query } = router;
+        router.push({ pathname, query }, asPath, { locale: val });
+    }, [router]);
 
     return (
         <div className='homePage'>
@@ -21,9 +21,9 @@ const Home = () => {
                 <input type='password' value={password} onChange={({target: {value}}) => setPassword(value)}/>
                 <button type={'submit'}>Sign In</button>
                 <Button><FormattedMessage id="yup.mixed.required"/></Button>
-                <h3><FormattedMessage id="yup.string.min"/></h3>
+                <h3><FormattedMessage id="yup.string.min" values={{min: 5}}/></h3>
                 <Select
-                    defaultValue={language.locale}
+                    defaultValue={router.locale}
                     onChange={(value) => handleChange(value)}
                     options={[
                         {

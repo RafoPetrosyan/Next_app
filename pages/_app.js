@@ -1,25 +1,30 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 import Head from "next/head";
 import {Provider} from "react-redux";
 import {isEmpty} from "lodash";
 import cookies from "next-cookies";
+import {ConfigProvider} from "antd";
+import {IntlProvider} from "react-intl";
+import {useRouter} from "next/router";
 import store from "../store";
 import Cookies from "../utils/cookies";
 import httpClient from "../store/httpClient";
 import {setCurrentUser, setUserAuthorized} from "../store/users";
-import 'antd/dist/reset.css';
-import {ConfigProvider} from "antd";
 import {theme} from "../styles/antdGlobalStyles";
-import {IntlProvider} from 'react-intl-redux';
 import {parseQuery} from "../utils/helpers";
+import messages from "../locales";
+import 'antd/dist/reset.css';
 
 const Application = ({Component, pageProps}) => {
+    const router = useRouter();
+    const language = useMemo(() => router.locale, [router.locale]);
+
     useEffect(() => {
         const currentUser = Cookies.getCookie('currentUser');
         const accessToken = Cookies.getCookie('accessToken');
         store.dispatch(setCurrentUser(currentUser));
         if (accessToken && !isEmpty(currentUser)) store.dispatch(setUserAuthorized(true));
-    }, [store.getState().users]);
+    }, []);
 
     return (
         <>
@@ -32,7 +37,7 @@ const Application = ({Component, pageProps}) => {
                 <title>Next JS App</title>
             </Head>
             <Provider store={store}>
-                <IntlProvider locale='am'>
+                <IntlProvider locale={language} messages={messages[language]}>
                     <ConfigProvider theme={theme}>
                         <Component {...pageProps} />
                     </ConfigProvider>
