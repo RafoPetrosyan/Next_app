@@ -7,6 +7,21 @@ import store from "../store";
 import Cookies from "../utils/cookies";
 import httpClient from "../store/httpClient";
 import {setCurrentUser, setUserAuthorized} from "../store/users";
+import 'antd/dist/reset.css';
+import {ConfigProvider} from "antd";
+import {theme} from "../styles/antdGlobalStyles";
+import {IntlProvider} from 'react-intl-redux';
+
+const INTL_FORMATS = {
+    number: {
+        USD: {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 1,
+        },
+    },
+};
 
 const Application = ({Component, pageProps}) => {
     useEffect(() => {
@@ -26,7 +41,13 @@ const Application = ({Component, pageProps}) => {
                 <meta charSet="utf-8"/>
                 <title>Next JS App</title>
             </Head>
-            <Provider store={store}><Component {...pageProps} /></Provider>
+            <Provider store={store}>
+                <IntlProvider locale='am'>
+                    <ConfigProvider theme={theme}>
+                        <Component {...pageProps} />
+                    </ConfigProvider>
+                </IntlProvider>
+            </Provider>
         </>
     );
 };
