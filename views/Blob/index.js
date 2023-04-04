@@ -10,7 +10,7 @@ const Blob = (props) => {
 
     return (
         <div className='blob'>
-            <div className="content" style={{height: 1500}}></div>
+            <div className="content"></div>
             <Link href='/'>Home</Link>
             <Link href='/profile/account'>Account</Link>
             <button onClick={() => setQueryParams({name: 'country', value: 'Armenia'})}>Set community</button>

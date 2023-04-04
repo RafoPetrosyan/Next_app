@@ -23,9 +23,9 @@ const useParams = () => {
     }, [params]);
 
     useEffect(() => {
-        if(isEmpty(router.query)) return;
-        parseQuery(router.query);
-    }, [])
+        // if(isEmpty(router.query)) return;
+        // parseQuery(router.query);
+    }, []);
 
     return {
         setQueryParams,
