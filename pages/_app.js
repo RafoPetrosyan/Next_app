@@ -11,17 +11,7 @@ import 'antd/dist/reset.css';
 import {ConfigProvider} from "antd";
 import {theme} from "../styles/antdGlobalStyles";
 import {IntlProvider} from 'react-intl-redux';
-
-const INTL_FORMATS = {
-    number: {
-        USD: {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 1,
-        },
-    },
-};
+import {parseQuery} from "../utils/helpers";
 
 const Application = ({Component, pageProps}) => {
     useEffect(() => {
@@ -54,7 +44,9 @@ const Application = ({Component, pageProps}) => {
 
 Application.getInitialProps = async ({Component, ctx}) => {
     ctx.store = store;
-    ctx.dispatch = store.dispatch;
+    if(!isEmpty(ctx.query?.slug)) {
+        ctx.params = await parseQuery(ctx.query.slug);
+    }
     const isServer = Boolean(ctx.req);
     if (isServer) {
         const {accessToken} = await cookies(ctx);

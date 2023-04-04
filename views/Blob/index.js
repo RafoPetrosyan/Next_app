@@ -6,7 +6,11 @@ import useParams from "../../hooks/useParams";
 // import "./style.scss";
 
 const Blob = (props) => {
-    const {setQueryParams} = useParams();
+    const {setQueryParams, params} = useParams();
+
+    useEffect(() => {
+        console.log(params, 777)
+    }, [params])
 
     return (
         <div className='blob'>
@@ -29,8 +33,9 @@ const Blob = (props) => {
     )
 }
 
-Blob.getInitialProps = async ({store}) => {
-    const {payload} = await store.dispatch(fetchListings())
+Blob.getInitialProps = async (ctx) => {
+    console.log('0000000', ctx)
+    const {payload} = await ctx.store.dispatch(fetchListings())
     return payload;
 }
 
