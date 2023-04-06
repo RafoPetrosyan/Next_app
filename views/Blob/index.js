@@ -9,7 +9,7 @@ const Blob = (props) => {
     const {setQueryParams, params} = useParams();
 
     useEffect(() => {
-        console.log(params, 777)
+        console.log(params, 'client')
     }, [params])
 
     return (
@@ -34,7 +34,7 @@ const Blob = (props) => {
 }
 
 Blob.getInitialProps = async (ctx) => {
-    console.log('0000000', ctx)
+    console.log('server query', ctx.query)
     const {payload} = await ctx.store.dispatch(fetchListings())
     return payload;
 }

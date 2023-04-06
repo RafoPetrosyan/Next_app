@@ -54,17 +54,11 @@ export const usersSlice = createSlice({
                     }
 
                     if (payload.rememberMe) {
-                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, {
-                            maxAge: 1000 * 24 * 60 * 60,
-                            maxage: 1000 * 24 * 60 * 60,
-                        });
-                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, {
-                            maxAge: 1000 * 24 * 60 * 60,
-                            maxage: 1000 * 24 * 60 * 60,
-                        });
-                    } else {
                         Cookies.setCookie(null, 'currentUser', payload.data.data.attributes);
                         Cookies.setCookie(null, 'accessToken', payload.data.meta?.access);
+                    } else {
+                        Cookies.setCookie(null, 'currentUser', payload.data.data.attributes, false);
+                        Cookies.setCookie(null, 'accessToken', payload.data.meta?.access, false);
                     }
                     state.currentUser = payload.data;
                     state.isUserAuthorized = true;

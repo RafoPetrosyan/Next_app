@@ -3,12 +3,16 @@ import clientCookie from 'component-cookie';
 import {isEmpty} from "lodash";
 
 class Cookies {
-    static setCookie = (ctx, name, value, options = {}) => {
+    static setCookie = (ctx, name, value, remember= true, options = {}) => {
         options.httpOnly = true;
         options.secure = true;
         options.path = '/';
         options.sameSite = true;
         options.samesite = true;
+        if(remember) {
+            options.maxAge = 1000 * 24 * 60 * 60;
+            options.maxage = 1000 * 24 * 60 * 60;
+        }
         const data = JSON.stringify(value);
         if (ctx && typeof window === 'undefined') {
             ctx.res.setHeader('Set-Cookie', serverCookie.serialize(name, data, options));

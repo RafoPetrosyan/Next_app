@@ -3,6 +3,7 @@ import Link from "next/link";
 import {Button, Radio, Select} from "antd";
 import {FormattedMessage} from "react-intl";
 import {useRouter} from "next/router";
+import Cookies from "../../utils/cookies";
 import useContainer from "./hook";
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
     const handleChange = useCallback((val)=> {
         const { pathname, asPath, query } = router;
         router.push({ pathname, query }, asPath, { locale: val });
+        Cookies.setCookie(null, 'language', val);
     }, [router]);
 
     return (
