@@ -17,8 +17,8 @@ const Home = () => {
     }, [router]);
 
     return (
-        <div className='homePage'>
-            <form onSubmit={handleSubmit}>
+        <div className='home'>
+            <form onSubmit={handleSubmit} className='content'>
                 <input type='email' value={email} onChange={({target: {value}}) => setEmail(value)}/>
                 <input type='password' value={password} onChange={({target: {value}}) => setPassword(value)}/>
                 <button type={'submit'}>Sign In</button>

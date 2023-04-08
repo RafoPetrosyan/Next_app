@@ -3,6 +3,7 @@ import {setUserAuthorized} from "./users";
 import {BASE_URL} from "../constants";
 import Cookies from "../utils/cookies";
 import store from "./index";
+import Router from 'next/router';
 
 const httpClient = axios.create({
     baseURL: BASE_URL,
@@ -12,7 +13,7 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
-    if(typeof window === 'undefined') return config;
+    if (typeof window === 'undefined') return config;
 
     const accessToken = Cookies.getCookie('accessToken');
     if (accessToken) {
@@ -29,7 +30,7 @@ httpClient.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             Cookies.removeCookie(null, 'accessToken');
             Cookies.removeCookie(null, 'currentUser');
-            window.replace('/');
+            if (typeof window !== 'undefined') Router.replace('/');
             store.dispatch(setUserAuthorized());
         }
         return Promise.reject(error)

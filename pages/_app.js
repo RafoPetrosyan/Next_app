@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect} from "react";
 import Head from "next/head";
 import {Provider} from "react-redux";
 import {isEmpty} from "lodash";
@@ -13,11 +13,10 @@ import {setCurrentUser, setUserAuthorized} from "../store/users";
 import {theme} from "../styles/antdGlobalStyles";
 import {parseQuery} from "../utils/helpers";
 import messages from "../locales";
-import 'antd/dist/reset.css';
+import "../styles/style.scss";
 
 const Application = ({Component, pageProps}) => {
     const router = useRouter();
-    const language = useMemo(() => router.locale, [router.locale]);
 
     useEffect(() => {
         const currentUser = Cookies.getCookie('currentUser');
@@ -37,7 +36,7 @@ const Application = ({Component, pageProps}) => {
                 <title>Next JS App</title>
             </Head>
             <Provider store={store}>
-                <IntlProvider locale={language} messages={messages[language]}>
+                <IntlProvider locale={router.locale} messages={messages[router.locale]}>
                     <ConfigProvider theme={theme}>
                         <Component {...pageProps} />
                     </ConfigProvider>
@@ -49,15 +48,15 @@ const Application = ({Component, pageProps}) => {
 
 Application.getInitialProps = async ({Component, ctx}) => {
     ctx.store = store;
-    if(!isEmpty(ctx.query?.slug)) {
-        ctx.params = await parseQuery(ctx.query.slug);
-    }
     const isServer = Boolean(ctx.req);
+
+    if (!isEmpty(ctx.query?.slug)) ctx.params = await parseQuery(ctx.query.slug);
+
     if (isServer) {
-        const {accessToken} = await cookies(ctx);
-        if (accessToken) {
-            httpClient.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
+        const {accessToken, language} = await cookies(ctx);
+
+        if (language) ctx.locale = language;
+        if (accessToken) httpClient.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
     }
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
     return {pageProps}

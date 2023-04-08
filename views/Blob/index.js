@@ -3,7 +3,7 @@ import Link from "next/link";
 import {isEmpty} from "lodash";
 import {fetchListings} from "../../store/users/operations";
 import useParams from "../../hooks/useParams";
-// import "./style.scss";
+import {parseQuery} from "../../utils/helpers";
 
 const Blob = (props) => {
     const {setQueryParams, params} = useParams();
@@ -34,7 +34,7 @@ const Blob = (props) => {
 }
 
 Blob.getInitialProps = async (ctx) => {
-    console.log('server query', ctx.query)
+    console.log('server query', parseQuery(ctx.query?.slug))
     const {payload} = await ctx.store.dispatch(fetchListings())
     return payload;
 }

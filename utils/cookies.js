@@ -10,8 +10,8 @@ class Cookies {
         options.sameSite = true;
         options.samesite = true;
         if(remember) {
-            options.maxAge = 1000 * 24 * 60 * 60;
-            options.maxage = 1000 * 24 * 60 * 60;
+            options.maxAge = 3.456e+10; // 400 day
+            options.maxage = 3.456e+10; // 400 day
         }
         const data = JSON.stringify(value);
         if (ctx && typeof window === 'undefined') {
