@@ -9,7 +9,6 @@ const useParams = () => {
 
     /** is added to the url **/
     const addInToRoute = useCallback((queryParams) => {
-        if (isEmpty(queryParams)) return;
 
         let paths = router.pathname;
         if (router.pathname.includes("/[...slug]")) {
@@ -18,6 +17,11 @@ const useParams = () => {
         if (router.pathname.includes("[...slug]/")) {
             paths = router.pathname.replace("[...slug]/", "");
         }
+        if (isEmpty(queryParams)) {
+            router.push(paths, undefined, {shallow: true, scroll: false});
+            return;
+        }
+
         router.push(`${paths}/${createSlug(queryParams)}`, undefined, {shallow: true, scroll: false});
     }, [router]);
 
@@ -31,6 +35,12 @@ const useParams = () => {
         addInToRoute(queryParams);
     }, [params]);
 
+    /** delete query params **/
+    const deleteQueryParams = useCallback(() => {
+        setParams({});
+        addInToRoute({});
+    }, []);
+
     /** get query from url **/
     useEffect(() => {
         if (isEmpty(router.query)) return;
@@ -41,6 +51,7 @@ const useParams = () => {
 
     return {
         setQueryParams,
+        deleteQueryParams,
         params,
     }
 }

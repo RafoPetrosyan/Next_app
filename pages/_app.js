@@ -13,7 +13,7 @@ import {setCurrentUser, setUserAuthorized} from "../store/users";
 import {theme} from "../styles/antdGlobalStyles";
 import {parseQuery} from "../utils/helpers";
 import messages from "../locales";
-import "../styles/style.scss";
+// import "../styles/style.scss";
 
 const Application = ({Component, pageProps}) => {
     const router = useRouter();
