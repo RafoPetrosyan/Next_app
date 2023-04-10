@@ -1185,12 +1185,22 @@ react-redux@^8.0.5:
     react-is "^18.0.0"
     use-sync-external-store "^1.0.0"
 
+react-social-login-buttons@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/react-social-login-buttons/-/react-social-login-buttons-3.6.1.tgz#77e5c33ac6610a29071e2ad688ef585871120763"
+  integrity sha512-DIz30W+C147s7wxwt8zgwjx5pE+gTJwtUzTNKpKZO3bEY06eLjcY1zvZ8h35hQd1Yjd7b4rLkeuZBwlLURYIfg==
+
 react@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
+
+reactjs-social-login@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/reactjs-social-login/-/reactjs-social-login-2.6.2.tgz#fffa8a8d216bcb373433322e1fe7328318c80177"
+  integrity sha512-7ngl3qMbnRkXJznsdd/fwCXLwE1wBpeLhaAZJlZF0Wki7tl9nwFL191t+uopZkSBnWuHRCBhmOGgT/y9KVSJAg==
 
 readdirp@~3.6.0:
   version "3.6.0"

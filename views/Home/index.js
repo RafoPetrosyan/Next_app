@@ -1,10 +1,14 @@
 import React, {useCallback} from "react";
 import Link from "next/link";
+import dynamic from 'next/dynamic'
 import {Button, Radio, Select} from "antd";
 import {FormattedMessage} from "react-intl";
 import {useRouter} from "next/router";
 import Cookies from "../../utils/cookies";
 import useContainer from "./hook";
+const SocialLogin = dynamic(() => import('./SocialLogin'), {
+    ssr: false,
+});
 
 const Home = () => {
     const {handleSubmit, setEmail, setPassword, email, password} = useContainer();
@@ -23,6 +27,7 @@ const Home = () => {
                 <input type='password' value={password} onChange={({target: {value}}) => setPassword(value)}/>
                 <button type={'submit'}>Sign In</button>
                 <Button><FormattedMessage id="yup.mixed.required"/></Button>
+                <SocialLogin />
                 <h3><FormattedMessage id="yup.string.min" values={{min: 5}}/></h3>
                 <Select
                     defaultValue={router.locale}
