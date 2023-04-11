@@ -4,8 +4,16 @@ import dynamic from 'next/dynamic'
 import {Button, Radio, Select} from "antd";
 import {FormattedMessage} from "react-intl";
 import {useRouter} from "next/router";
+import moment from "moment";
+import 'moment/locale/hy-am';
+import 'moment/locale/ru';
+import 'moment/locale/en-gb';
 import Cookies from "../../utils/cookies";
 import useContainer from "./hook";
+import {momentLocales} from "../../constants";
+const Calendar = dynamic(() => import('./Calendar'), {
+    ssr: false,
+});
 const SocialLogin = dynamic(() => import('./SocialLogin'), {
     ssr: false,
 });
@@ -18,6 +26,7 @@ const Home = () => {
         const { pathname, asPath, query } = router;
         router.push({ pathname, query }, asPath, { locale: val });
         Cookies.setCookie(null, 'language', val);
+        moment.locale(momentLocales[val]);
     }, [router]);
 
     return (
@@ -52,6 +61,9 @@ const Home = () => {
             </form>
             <Link href='/profile'>Profile</Link>
             <Link href='/blob'>Blob</Link>
+            {/*<div style={{marginTop: 100}}>*/}
+            {/*    <Calendar />*/}
+            {/*</div>*/}
         </div>
     )
 }

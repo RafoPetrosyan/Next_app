@@ -1,0 +1,43 @@
+.calendar {
+  .ant-picker {
+    visibility: hidden;
+    height: 0;
+  }
+}
+
+.customCalendar {
+  padding: 0;
+  .ant-picker-range-wrapper {
+    .ant-picker-range-arrow {
+      display: none;
+    }
+    .ant-picker-panel-container {
+      .ant-picker-panel-layout {
+        .ant-picker-panels {
+          .ant-picker-panel {
+            width: 90vw;
+            .ant-picker-date-panel {
+              .ant-picker-header {
+                display: none;
+              }
+            }
+            &:last-child {
+              display: none;
+            }
+
+            .ant-picker-body {
+              .ant-picker-content {
+                thead {
+                  display: none;
+                }
+                tbody {
+                  display: flex;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
