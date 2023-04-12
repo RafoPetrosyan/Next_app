@@ -14,6 +14,7 @@ import {theme} from "../styles/antdGlobalStyles";
 import {parseQuery} from "../utils/helpers";
 import messages from "../locales";
 import "../styles/style.scss";
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 const Application = ({Component, pageProps}) => {
     const router = useRouter();
