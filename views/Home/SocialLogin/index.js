@@ -6,8 +6,8 @@ import {FACEBOOK_APP_ID, GOOGLE_CLIENT_ID} from "../../../constants";
 const SocialLogin = () => {
     const [profile, setProfile] = useState(null);
     const [provider, setProvider] = useState('');
-    console.log(profile, 777)
-    console.log(provider, 88888)
+    // console.log(profile, 777)
+    // console.log(provider, 88888)
 
     const onResolve = (data) => {
         console.log(data, 8888)
