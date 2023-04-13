@@ -1,8 +1,8 @@
-import React, {useState, useContext, useMemo, useEffect} from 'react';
+import React, {useState, useContext, useMemo} from 'react';
 import {ScrollMenu, VisibilityContext} from 'react-horizontal-scrolling-menu';
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";
+import {isEmpty, range} from "lodash";
 import moment from "moment";
-import {isEmpty} from "lodash";
 import {Button} from "antd";
 
 /** Left arrow button **/
@@ -26,31 +26,47 @@ const RightArrow = () => {
 }
 
 /** Day Card **/
-const Card = ({data, handleClick, setLeftElement}) => {
+const Card = ({data, selected, rangeDays}) => {
     const {getPrevElement} = useContext(VisibilityContext);
     const leftElement = getPrevElement();
-    const leftItem = isEmpty(leftElement) ? 0 : leftElement.index;
-    const day = moment(data.day).format("L").split('/')[0];
+    const leftItem = isEmpty(leftElement) ? 0 : +leftElement.index + 1;
+    const day = moment(data.day).format('DD');
 
-    useEffect(() => {
-        setLeftElement(leftItem);
-    }, [leftItem]);
+    if(+leftItem === +data.id) {
+        console.log(moment(data.day).format('DD'))
+    }
+
+    const dayClassName = useMemo(() => {
+        let cls = 'day';
+        if(selected.includes(data.id)) cls += ' selectedDay';
+        if(rangeDays.includes(data.id)) cls += ' rangeDay';
+        return cls;
+    }, [selected, rangeDays]);
+
+    /** get weekend day **/
+    const weekends = useMemo(() => moment(data.day).day() === 6 || moment(data.day).day() === 0, [data]);
 
     return (
-        <div onClick={handleClick(data.id)} className='customCalendarCard' tabIndex={0}>
-            <p className='month'>
-                {(day === '01') ? moment(data.day).format("MMMM") : ''}
-            </p>
-            <p className='day'>{day}</p>
+        <div className='customCalendarCard' tabIndex={0}>
+            {+leftItem === +data.id && <p className='hh'>hhhhh</p>}
+            <p className='month'> {(day === '01' || +leftItem === +data.id) ? moment(data.day).format("MMMM") : ''}</p>
+            <div className={dayClassName}>
+                <p className={weekends ? 'weekDay weekends' : 'weekDay'}>
+                    {moment(data.day).format("ddd")}
+                </p>
+                <p className={weekends ? 'dayNumber weekends' : 'dayNumber'}>{day}</p>
+            </div>
         </div>
     );
 }
 
 const CustomCalendar = () => {
-    const [leftElement, setLeftElement] = useState('');
     const [selected, setSelected] = useState([]);
-
-    console.log(selected)
+    const rangeDays = useMemo(() => {
+        const days = selected.length === 2 ? range(selected[0], selected[1]) : [];
+        if(days.length) days.shift();
+        return days;
+    }, [selected]);
 
     /** all day arr **/
     const days = useMemo(() => {
@@ -61,30 +77,22 @@ const CustomCalendar = () => {
         return data;
     }, []);
 
-    /** left item id **/
-    const leftElementMonth = useMemo(() => {
-        return moment(days.find(e => +e.id === +leftElement).day).format("MMMM")
-    }, [leftElement]);
-
-    const handleClick = (id) => ({getItemById, scrollToItem}) => {
-        if(selected.length > 2) {
+    /** on select handler **/
+    const onSelect = (id) => {
+        if(selected.length === 2) {
             setSelected([id]);
-            console.log(4444444444)
+            return;
         }
         setSelected([...selected, id]);
     };
 
     return (
         <div className="customCalendar">
-            <p className='leftMonth'>{leftElementMonth}</p>
             <ScrollMenu scrollContainerClassName='scrollContainer' wrapperClassName='scrollWrapper' LeftArrow={LeftArrow} RightArrow={RightArrow}>
                 {days.map(date =>
-                    <Card
-                        key={date.id}
-                        data={date}
-                        handleClick={handleClick}
-                        setLeftElement={setLeftElement}
-                    />
+                    <div key={date.id} onClick={() => onSelect(date.id)}>
+                        <Card data={date} selected={selected} rangeDays={rangeDays}/>
+                    </div>
                 )}
             </ScrollMenu>
         </div>

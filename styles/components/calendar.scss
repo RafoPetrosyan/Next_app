@@ -7,9 +7,18 @@
     overflow-x: hidden;
   }
   .scrollWrapper {
-    height: 80px;
+    height: 110px;
     display: flex;
     justify-content: center;
+    .react-horizontal-scrolling-menu--inner-wrapper {
+      .react-horizontal-scrolling-menu--arrow-left, .react-horizontal-scrolling-menu--arrow-right {
+        height: 50px;
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
 }
 
@@ -19,15 +28,43 @@
 
 .customCalendarCard {
   width: 30px;
-  margin: 0 25px;
+  margin: 0 13px;
   display: flex;
   align-items: center;
   cursor: pointer;
   flex-direction: column;
+
+  .hh {
+    width: 100px;
+    background-color: red;
+    height: 30px;
+  }
   .day {
     margin-top: 10px;
+    width: 48px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 13px;
+    .weekDay {
+      margin-top: 15px;
+    }
+    .weekends {
+      color: red;
+    }
+  }
+  .selectedDay {
+    background-color: blue;
+    color: white;
+  }
+  .rangeDay {
+    background-color: #0050ff0f;
   }
   .month {
     height: 10px;
+    font-size: 13px;
   }
 }
