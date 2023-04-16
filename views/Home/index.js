@@ -11,9 +11,7 @@ import 'moment/locale/en-gb';
 import Cookies from "../../utils/cookies";
 import useContainer from "./hook";
 import {momentLocales} from "../../constants";
-const CustomCalendar = dynamic(() => import('./CustomCalendar'), {
-    ssr: false,
-});
+import CustomCalendar from './CustomCalendar';
 const SocialLogin = dynamic(() => import('./SocialLogin'), {
     ssr: false,
 });
@@ -59,7 +57,6 @@ const Home = () => {
                 />
                 <Radio/>
             </form>
-            <Link href='/profile'>Profile</Link>
             <Link href='/blob'>Blob</Link>
             <div style={{marginTop: 100}}>
                 <CustomCalendar />

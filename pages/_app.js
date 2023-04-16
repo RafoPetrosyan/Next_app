@@ -11,10 +11,9 @@ import Cookies from "../utils/cookies";
 import httpClient from "../store/httpClient";
 import {setCurrentUser, setUserAuthorized} from "../store/users";
 import {theme} from "../styles/antdGlobalStyles";
-import {parseQuery} from "../utils/helpers";
+import QueryParams from "../utils/queryParams";
 import messages from "../locales";
 import "../styles/style.scss";
-import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 const Application = ({Component, pageProps}) => {
     const router = useRouter();
@@ -51,7 +50,7 @@ Application.getInitialProps = async ({Component, ctx}) => {
     ctx.store = store;
     const isServer = Boolean(ctx.req);
 
-    if (!isEmpty(ctx.query?.slug)) ctx.params = await parseQuery(ctx.query.slug);
+    if (!isEmpty(ctx.query?.slug)) ctx.params = await QueryParams.parseQuery(ctx.query.slug);
 
     if (isServer) {
         const {accessToken, language} = await cookies(ctx);

@@ -1,4 +1,17 @@
+@import "react-horizontal-scrolling-menu/dist/styles.css";
+
 .customCalendar {
+  position: relative;
+  .firstMoth {
+    position: absolute;
+    width: 130px;
+    height: 20px;
+    background-color: white;
+    font-size: 13px;
+    left: 45px;
+    bottom: 67px;
+    z-index: 10;
+  }
   .leftMonth {
     margin-left: 80px;
     margin-bottom: -20px;
@@ -34,11 +47,6 @@
   cursor: pointer;
   flex-direction: column;
 
-  .hh {
-    width: 100px;
-    background-color: red;
-    height: 30px;
-  }
   .day {
     margin-top: 10px;
     width: 48px;
