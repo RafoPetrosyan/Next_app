@@ -46,12 +46,12 @@ class QueryParams {
         return this.parseQuery(Router.query?.slug);
     }
 
-    static set = ({name, value}) => {
+    static set = async ({name, value}) => {
         const queryParams = {...this.get(), [name]: value};
 
         if (!value) delete queryParams[name];
 
-        this.addInToRoute(queryParams);
+       await this.addInToRoute(queryParams);
     }
 }
 

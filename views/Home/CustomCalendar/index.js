@@ -2,15 +2,17 @@ import React, {useState, useMemo, useCallback} from 'react';
 import {ScrollMenu} from 'react-horizontal-scrolling-menu';
 import {range} from "lodash";
 import moment from "moment";
+import useParams from "hooks/useParams";
 import CalendarCard from "./CalendarCard";
 import {LeftArrow, RightArrow} from "./Arrows";
-import useParams from "hooks/useParams";
+import QueryParams from "utils/queryParams";
+import {useRouter} from "next/router";
 
-const CustomCalendar = (props) => {
-    console.log(props)
+const CustomCalendar = () => {
     const [firstMonth, setFirstMonth] = useState('');
     const [selected, setSelected] = useState([]);
     const [selectedDay, setSelectedDay] = useState([]);
+    const router = useRouter();
     const params = useParams();
 
     /** range days **/
@@ -20,8 +22,8 @@ const CustomCalendar = (props) => {
         return days;
     }, [selected]);
 
-    console.log(params, 'CustomCalendar')
-    console.log(selectedDay)
+    // console.log(params, 'CustomCalendar')
+    // console.log(selectedDay)
 
     /** all day arr **/
     const days = useMemo(() => {
@@ -37,13 +39,15 @@ const CustomCalendar = (props) => {
     }, [days]);
 
     /** on select handler **/
-    const onSelect = (date) => {
+    const onSelect = async (date) => {
         if(selected.length === 2) {
             setSelected([date.id]);
             setSelectedDay([moment(date.day).format('L')]);
             return;
         }
-        // QueryParams.set({name: 'day', value: moment(date.day).format('L')});
+        // await router.push('/events');
+        await QueryParams.set({name: 'day', value: moment(date.day).format('L')});
+        // QueryParams.set({name: 'search', value: 'poxos'});
         setSelected([...selected, date.id]);
         setSelectedDay([...selectedDay, moment(date.day).format('L')]);
     };
