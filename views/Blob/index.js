@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import Link from "next/link";
 import {isEmpty} from "lodash";
-import {fetchListings} from "../../store/users/operations";
-import QueryParams from "../../utils/queryParams";
+import {fetchListings} from "store/users/operations";
+import useParams from "hooks/useParams";
+import QueryParams from "utils/queryParams";
 import Header from "./Header";
-import useParams from "../../hooks/useParams";
 
 const Blob = (props) => {
     const params = useParams();
@@ -18,7 +18,6 @@ const Blob = (props) => {
             <Header/>
             <div className="content"></div>
             <Link href='/'>Home</Link>
-            <Link href='/profile/account'>Account</Link>
             <button onClick={() =>QueryParams.set({name: 'country', value: 'Armenia'})}>Set community</button>
             <button onClick={() => QueryParams.set({name: 'region', value: 'Shirak'})}>Set region</button>
             <button onClick={() => QueryParams.set({name: 'city', value: 'Gyumri'})}>Set city</button>

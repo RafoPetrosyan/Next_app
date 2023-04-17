@@ -1,13 +1,13 @@
-import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import React, {useState, useMemo, useCallback} from 'react';
 import {ScrollMenu} from 'react-horizontal-scrolling-menu';
 import {range} from "lodash";
 import moment from "moment";
-import {LeftArrow, RightArrow} from "./Arrows";
 import CalendarCard from "./CalendarCard";
-import useParams from "../../../hooks/useParams";
-import QueryParams from "../../../utils/queryParams";
+import {LeftArrow, RightArrow} from "./Arrows";
+import useParams from "hooks/useParams";
 
-const CustomCalendar = () => {
+const CustomCalendar = (props) => {
+    console.log(props)
     const [firstMonth, setFirstMonth] = useState('');
     const [selected, setSelected] = useState([]);
     const [selectedDay, setSelectedDay] = useState([]);
