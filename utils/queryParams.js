@@ -12,7 +12,7 @@ class QueryParams {
     static parseQuery = (query) => {
         if (typeof window === 'undefined') return;
         if (isEmpty(query)) return {};
-        return query.reduce((acc, item, index) => {
+        return query.reduce((acc, item) => {
             if (item.includes('_')) {
                 const element = item.split('_');
                 acc[`${element[0]}`] = element[1];
