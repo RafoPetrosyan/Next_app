@@ -5,6 +5,7 @@ import Cookies from "../utils/cookies";
 import store from "./index";
 import Router from 'next/router';
 
+console.log(Router.router,123)
 
 const httpClient = axios.create({
     baseURL: BASE_URL,
@@ -20,7 +21,7 @@ httpClient.interceptors.request.use((config) => {
     if (accessToken) {
         axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
         config.headers.Authorization = `Bearer ${accessToken}`;
-        // config.headers[ "X-Language"]  = router.locale;
+        config.headers['X-Language']  = Router.router.locale;
 
     }
     return config

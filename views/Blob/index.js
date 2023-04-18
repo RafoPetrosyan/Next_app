@@ -1,28 +1,29 @@
 import React, {useEffect} from "react";
 import Link from "next/link";
 import {isEmpty} from "lodash";
-import {fetchListings} from "../../store/users/operations";
-import useParams from "../../hooks/useParams";
-import {parseQuery} from "../../utils/helpers";
+import {fetchListings} from "store/users/operations";
+import useParams from "hooks/useParams";
+import QueryParams from "utils/queryParams";
+import Header from "./Header";
 
 const Blob = (props) => {
-    const {setQueryParams, params} = useParams();
+    const params = useParams();
 
     useEffect(() => {
-        console.log(params, 'client')
+        console.log(params, 'blob')
     }, [params])
 
     return (
         <div className='blob'>
+            <Header/>
             <div className="content"></div>
             <Link href='/'>Home</Link>
-            <Link href='/profile/account'>Account</Link>
-            <button onClick={() => setQueryParams({name: 'country', value: 'Armenia'})}>Set community</button>
-            <button onClick={() => setQueryParams({name: 'region', value: 'Shirak'})}>Set region</button>
-            <button onClick={() => setQueryParams({name: 'city', value: 'Gyumri'})}>Set city</button>
-            <button onClick={() => setQueryParams({name: 'country', value: ''})}>Set community</button>
-            <button onClick={() => setQueryParams({name: 'region', value: 'Syuniq'})}>Set region</button>
-            <button onClick={() => setQueryParams({name: 'city', value: 'Mexri'})}>Set city</button>
+            <button onClick={() =>QueryParams.set({name: 'country', value: 'Armenia'})}>Set community</button>
+            <button onClick={() => QueryParams.set({name: 'region', value: 'Shirak'})}>Set region</button>
+            <button onClick={() => QueryParams.set({name: 'city', value: 'Gyumri'})}>Set city</button>
+            <button onClick={() => QueryParams.set({name: 'country', value: ''})}>Set community</button>
+            <button onClick={() => QueryParams.set({name: 'region', value: 'Syuniq'})}>Set region</button>
+            <button onClick={() => QueryParams.set({name: 'city', value: 'Mexri'})}>Set city</button>
             <div>
                 {!isEmpty(props) && <>
                     {props.attributes.about}
@@ -34,7 +35,7 @@ const Blob = (props) => {
 }
 
 Blob.getInitialProps = async (ctx) => {
-    console.log('server query', parseQuery(ctx.query?.slug))
+    console.log('server query', QueryParams.parseQuery(ctx.query?.slug))
     const {payload} = await ctx.store.dispatch(fetchListings())
     return payload;
 }

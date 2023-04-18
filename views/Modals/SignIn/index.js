@@ -1,10 +1,12 @@
 import React from 'react';
 import {Modal} from "antd";
 
-const SignIn = () => {
+const SignIn = ({onClose}) => {
     return (
-        <Modal>
-            123
+        <Modal title="Basic Modal" open onCancel={onClose}>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
         </Modal>
     );
 };

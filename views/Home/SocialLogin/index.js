@@ -13,7 +13,6 @@ const SocialLogin = () => {
         console.log(data, 8888)
     }
 
-
     return (
         <div>
             <LoginSocialGoogle

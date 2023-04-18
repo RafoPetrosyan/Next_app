@@ -101,7 +101,8 @@ const Header = () => {
                     <Tooltip className='like' title="Like">
                         <Button icon={<HeartOutlined/>}/>
                     </Tooltip>
-                    <Button onClick={() => dispatch(showModal({modalType: 'SignIn'}))} className='signIn-Btn'>
+                    <Button onClick={() => dispatch(showModal({modalType: 'SIGN_IN_MODAL'}))}
+                            className='signIn-Btn'>
                         <FormattedMessage id={'signIn'}/>
                     </Button>
                 </div>
