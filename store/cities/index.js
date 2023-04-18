@@ -11,7 +11,7 @@ export const citiesSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(citiesRequest.fulfilled, (state, {payload}) => {
-                state.cities = payload.data
+                state.cities = payload?.data
             })
     }
 });

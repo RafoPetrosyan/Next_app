@@ -70,7 +70,7 @@ const Header = () => {
                     >
                         <Button className='city-popover'
                                 onClick={() => setPopover(true)}>
-                            {cityTitle || cities[0]?.title}
+                            {cityTitle || cities?.[0]?.title}
                             <DownOutlined/>
                         </Button>
                     </Popover>
