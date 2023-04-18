@@ -5,13 +5,14 @@ import Cookies from "../utils/cookies";
 import store from "./index";
 import Router from 'next/router';
 
+
 const httpClient = axios.create({
     baseURL: BASE_URL,
     headers: {
         "Content-Type": "multipart/form-data",
+
     },
 });
-
 httpClient.interceptors.request.use((config) => {
     if (typeof window === 'undefined') return config;
 
@@ -19,6 +20,8 @@ httpClient.interceptors.request.use((config) => {
     if (accessToken) {
         axios.defaults.headers.Authorization = `Bearer ${accessToken}`;
         config.headers.Authorization = `Bearer ${accessToken}`;
+        // config.headers[ "X-Language"]  = router.locale;
+
     }
     return config
 });

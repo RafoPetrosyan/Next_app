@@ -1,0 +1,117 @@
+.header {
+  display: flex;
+  flex-direction: column;
+
+  .header-Content {
+    margin-top: 21px;
+    height: 38px;
+    display: flex;
+    justify-content: space-between;
+
+    .header-left-content {
+      .logo {
+        width: 110px;
+        height: 38px;
+      }
+
+      .cities {
+        margin-left: 6px;
+        height: 38px;
+        width: 100px;
+        padding: 0;
+      }
+    }
+
+
+    .search {
+      width: 476px;
+    }
+
+    .signIn-Content {
+      display: flex;
+      align-items: center;
+
+      .ant-select {
+        margin-right: 6px;
+
+        .ant-select-selector {
+          width: 65px;
+          height: 38px;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .like {
+        height: 38px;
+        width: 44px;
+        margin-right: 6px;
+      }
+
+      .signIn-Btn {
+        height: 38px;
+        width: 97px;
+      }
+    }
+  }
+
+  .navigation-bar {
+    margin-top: 23px;
+    height: 56px;
+    padding: 18px 27px;
+    background-color: #F5F5F5;
+
+    span {
+      margin: 0 5px;
+    }
+  }
+}
+
+.ant-popover {
+  .ant-popover-arrow {
+    display: none;
+  }
+
+  .ant-popover-content {
+    .ant-popover-inner {
+      padding: 0;
+    }
+
+    .cities-popover {
+      width: 244px;
+
+      .cities-header {
+        border-bottom: 1px solid darkgray;
+
+        .cities-header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding:  12px;
+        }
+
+
+      }
+
+      .cities-main {
+        padding: 12px;
+
+        .cities-list {
+          list-style: none;
+          display: flex;
+          flex-wrap: wrap;
+
+          li {
+            margin: 2px;
+            width: 48%;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
+

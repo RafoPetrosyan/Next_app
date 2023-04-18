@@ -15,6 +15,7 @@ import {parseQuery} from "../utils/helpers";
 import messages from "../locales";
 import "../styles/style.scss";
 import 'react-horizontal-scrolling-menu/dist/styles.css';
+import ModalRoot from "../views/ModalRoot/component";
 
 const Application = ({Component, pageProps}) => {
     const router = useRouter();
@@ -40,6 +41,7 @@ const Application = ({Component, pageProps}) => {
                 <IntlProvider locale={router.locale} messages={messages[router.locale]}>
                     <ConfigProvider theme={theme}>
                         <Component {...pageProps} />
+                        <ModalRoot/>
                     </ConfigProvider>
                 </IntlProvider>
             </Provider>
